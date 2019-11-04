@@ -1,14 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 import api from '../services/api'
 
-export default function Login() {
+export default function Login({ history }) {
+  useEffect(() => {
+    if (sessionStorage.getItem('token'))
+      history.push('/')
+  }, [])
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   async function handleSubmit() {
     const response = await api.post('/login', { email, password })
+
+    if (response.data.token) {
+      sessionStorage.setItem('token', response.data.token)
+      history.push('/')
+    }
 
     console.log(response.data) // // // //
   }

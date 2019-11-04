@@ -1,9 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 import api from '../services/api'
 
-export default function Register() {
+export default function Register({ history }) {
+  useEffect(() => {
+    if (sessionStorage.getItem('token'))
+      history.push('/')
+  }, [])
+
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -22,6 +27,11 @@ export default function Register() {
         setWarning(`please, fill all fields`)
       } else {
         const response = await api.post('/register', { name, email, password })
+
+        if (response.data.token) {
+          sessionStorage.setItem('token', response.data.token)
+          history.push('/')
+        }
 
         console.log(response.data) // // // // //
       }

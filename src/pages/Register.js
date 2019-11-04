@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import api from '../services/api'
 
@@ -77,7 +78,7 @@ export default function Register() {
                 <button className="btn btn-success" onClick={handleSubmit}>Register</button>
               </div>
               <div className="text-center">
-                <a href="" className="small">Already have an account? Sign-in now.</a>
+                <Link to='/login' className='small'>Already have an account? Sign-in now.</Link>
               </div>
             </div>
           </div>
